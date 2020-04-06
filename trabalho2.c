@@ -10,31 +10,35 @@ Disciplina: Estrutura de Dados
 #include <stdlib.h>
 #include <string.h>
 
-typedef struct Produto {
+typedef struct Produto
+{
 	char nome[50];
 	float preco;
 	struct Produto *proxProd;
 } Produto;
 
-typedef struct Item {
+typedef struct Item
+{
 	int qtde;
 	Produto *p;
 	struct Item *proxItem;
 } Item;
 
-typedef struct Venda {
+typedef struct Venda
+{
 	char data[10];
 	Item *itens;
 	struct Venda *proxVenda;
 } Venda;
 
 void cadastrarProdutos(Produto **produtos); // OK
-void listarProdutos(Produto *p); // OK
-void cadastrarProduto(Produto **p); // OK
+void listarProdutos(Produto *p);			// OK
+void cadastrarProduto(Produto **p);			// OK
 void editarProduto(Produto **p);
-void deletarProduto(Produto **p, int indice);
+void deletarProduto(Produto **p, int indice); // PRECISA DE REVISÃO NO NOME DAS VARIÁVEIS
 
-int main() {
+int main()
+{
 
 	Produto *produtos = NULL;
 	Venda *vendas = NULL;
@@ -47,9 +51,11 @@ int main() {
 	return 0;
 }
 
-void listarProdutos(Produto *p) {
+void listarProdutos(Produto *p)
+{
 	Produto *aux = p;
-	while(aux != NULL) {
+	while (aux != NULL)
+	{
 		printf("\nEndereço: %p", aux);
 		printf("\nProduto: %s", aux->nome);
 		printf("\nPreço: %.2f", aux->preco);
@@ -58,8 +64,9 @@ void listarProdutos(Produto *p) {
 	}
 }
 
-void cadastrarProduto(Produto **p) {
-	Produto *novo = (Produto*) malloc(sizeof(Produto));
+void cadastrarProduto(Produto **p)
+{
+	Produto *novo = (Produto *)malloc(sizeof(Produto));
 	printf("\nInforme o nome do Produto: ");
 	scanf("%s", novo->nome);
 	printf("Informe o valor: ");
@@ -68,7 +75,8 @@ void cadastrarProduto(Produto **p) {
 	*p = novo;
 }
 
-void cadastrarProdutos(Produto **produtos) {
+void cadastrarProdutos(Produto **produtos)
+{
 	Produto *auxProd;
 	auxProd = (Produto *)malloc(sizeof(Produto));
 	strcpy(auxProd->nome, "Monitor");
@@ -129,4 +137,35 @@ void cadastrarProdutos(Produto **produtos) {
 	auxProd->preco = 180;
 	auxProd->proxProd = *produtos;
 	*produtos = auxProd;
+}
+
+void deletarProduto(Produto **p, int indice)
+{
+	if (indice < 0)
+		return -2;
+	else if (*p == NULL)
+		return -3;
+	else if (indice == 0)
+	{
+		Produto *aux = *p;
+		*p = aux->proxProd;
+		free(aux);
+		return 0;
+	}
+	else
+	{
+		Produto *aux = *p;
+		int indiceAux = 0;
+		while (aux != NULL && indiceAux < indice - 1)
+		{
+			aux = aux->proxProd;
+			indiceAux++;
+		}
+		if (indiceAux < indice - 1 || aux->proxProd == NULL)
+			return -3;
+		Produto *aux2 = aux->proxProd;
+		aux->proxProd = aux2->proxProd;
+		free(aux2);
+		return 0;
+	}
 }
