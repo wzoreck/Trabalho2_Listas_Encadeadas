@@ -1,4 +1,4 @@
-#2º Trabalho da disciplina de Estrutura de Dados utilizando listas encadeadas 
+# 2º Trabalho da disciplina de Estrutura de Dados utilizando listas encadeadas 
 
 1. Autores: Daniel Wzoreck, Adam Slabadack;
 2. Apresentado para a Disciplida de Estrutura de Dados do 3o semestre do cursod Superior de Tecnologia em Análise e Desenvolvimento de Sistemas do IFSC;
