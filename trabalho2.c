@@ -108,5 +108,3 @@ void cadastrarProdutos(Produto **produtos) {
 	auxProd->proxProd = *produtos;
 	*produtos = auxProd;
 }
-
-// Continuar
