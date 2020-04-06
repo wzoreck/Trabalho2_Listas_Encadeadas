@@ -28,22 +28,44 @@ typedef struct Venda {
 	struct Venda *proxVenda;
 } Venda;
 
-void cadastrarProdutos(Produto **produtos);
+void cadastrarProdutos(Produto **produtos); // OK
+void listarProdutos(Produto *p); // OK
+void cadastrarProduto(Produto **p); // OK
+void editarProduto(Produto **p);
+void deletarProduto(Produto **p, int indice);
 
 int main() {
 
-	// Ponteiro p/ lista de Produtos e auxiliar
 	Produto *produtos = NULL;
+	Venda *vendas = NULL;
 
 	cadastrarProdutos(&produtos);
-
-	// Exibir ultimo produto
-	printf("Endereço: %p", produtos);
-	printf("\nProduto: %s", produtos->nome);
-	printf("\nPreço: %.2f", produtos->preco);
-	printf("\nProximo Produto: %p\n", produtos->proxProd);
+	listarProdutos(produtos);
+	cadastrarProduto(&produtos);
+	listarProdutos(produtos);
 
 	return 0;
+}
+
+void listarProdutos(Produto *p) {
+	Produto *aux = p;
+	while(aux != NULL) {
+		printf("\nEndereço: %p", aux);
+		printf("\nProduto: %s", aux->nome);
+		printf("\nPreço: %.2f", aux->preco);
+		printf("\nProximo Produto: %p\n", aux->proxProd);
+		aux = aux->proxProd;
+	}
+}
+
+void cadastrarProduto(Produto **p) {
+	Produto *novo = (Produto*) malloc(sizeof(Produto));
+	printf("\nInforme o nome do Produto: ");
+	scanf("%s", novo->nome);
+	printf("Informe o valor: ");
+	scanf("%f", &novo->preco);
+	novo->proxProd = *p;
+	*p = novo;
 }
 
 void cadastrarProdutos(Produto **produtos) {
