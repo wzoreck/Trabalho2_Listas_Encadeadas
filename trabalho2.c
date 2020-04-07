@@ -20,7 +20,7 @@ typedef struct Produto
 typedef struct Item
 {
 	int qtde;
-	Produto *p;
+	Produto *produtos;
 	struct Item *proxItem;
 } Item;
 
@@ -36,6 +36,9 @@ void listarProdutos(Produto *p);			// OK
 void cadastrarProduto(Produto **p);			// OK
 void editarProduto(Produto **p, char nome[50]); // OK
 void deletarProduto(Produto **p, int indice); // OK - PRECISA DE REVISÃO NO NOME DAS VARIÁVEIS
+Produto * buscarProduto(Produto **p, char nome[50]); // OK (Retorna um endereço de memória, ou seja o valor de um ponteiro do tipo Produto)
+
+void incluirVenda(Venda **v, Produto **p);
 
 int main()
 {
@@ -49,6 +52,7 @@ int main()
 	return 0;
 }
 
+// Produto
 void listarProdutos(Produto *p)
 {
 	Produto *aux = p;
@@ -183,4 +187,47 @@ void deletarProduto(Produto **p, int indice)
 		free(aux2);
 		return;
 	}
+}
+
+Produto * buscarProduto(Produto **p, char nome[50])
+{
+	Produto *aux = *p;
+	while(aux != NULL)
+	{
+		if(strcmp(aux->nome, nome) == 0)
+		{
+			return aux;
+		}
+		aux = aux->proxProd;
+	}
+}
+// ./Produto
+
+// Venda
+void incluirVenda(Venda **v, Produto **p)
+{
+	Venda *novaVenda = (Venda *) malloc(sizeof(Venda));
+	Item *novoItem = NULL;
+	Item *auxItem;
+	printf("\n\nInforme a data da venda (DD/MM/AAAA): ");
+	scanf("%s", novaVenda->data);
+	char nomeP[50], escolha[1];
+	while(1) {
+		auxItem = (Item *) malloc(sizeof(Item));
+		printf("\nInforme o nome do produto: ");
+		scanf("%s", nomeP);
+		auxItem->produtos = buscarProduto(*p, nomeP); // Fazer com que auxItem->produtos aponte para um produto
+		printf("\nInforme a quantidade: ");
+		scanf("%d", &auxItem->qtde);
+		auxItem->proxItem = novoItem;
+		novoItem = auxItem;
+
+		printf("\n\nDeseja cadastrar mais um item [S/N]: ");
+		scanf("%c", escolha);
+		if (escolha != 's' || escolha != 'S')
+			break;
+	}
+
+	novaVenda->itens = novoItem;
+	*v = novaVenda;
 }
