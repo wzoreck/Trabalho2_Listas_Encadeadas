@@ -34,8 +34,8 @@ typedef struct Venda
 void cadastrarProdutos(Produto **produtos); // OK
 void listarProdutos(Produto *p);			// OK
 void cadastrarProduto(Produto **p);			// OK
-void editarProduto(Produto **p);
-void deletarProduto(Produto **p, int indice); // PRECISA DE REVISÃO NO NOME DAS VARIÁVEIS
+void editarProduto(Produto **p, char nome[50]); // OK
+void deletarProduto(Produto **p, int indice); // OK - PRECISA DE REVISÃO NO NOME DAS VARIÁVEIS
 
 int main()
 {
@@ -44,8 +44,6 @@ int main()
 	Venda *vendas = NULL;
 
 	cadastrarProdutos(&produtos);
-	listarProdutos(produtos);
-	cadastrarProduto(&produtos);
 	listarProdutos(produtos);
 
 	return 0;
@@ -75,65 +73,82 @@ void cadastrarProduto(Produto **p)
 	*p = novo;
 }
 
+void editarProduto(Produto **p, char nome[50])
+{
+	Produto *aux = *p;
+	while (aux != NULL)
+	{
+		if(strcmp(aux->nome, nome) == 0)
+		{
+			printf("\n\nInforme o novo nome do produto: ");
+			scanf("%s", aux->nome);
+			printf("Informe o novo preço do produto: ");
+			scanf("%f", &aux->preco);
+			return;
+		}
+		aux = aux->proxProd;
+	}
+}
+
 void cadastrarProdutos(Produto **produtos)
 {
 	Produto *auxProd;
 	auxProd = (Produto *)malloc(sizeof(Produto));
-	strcpy(auxProd->nome, "Monitor");
+	strcpy(auxProd->nome, "monitor");
 	auxProd->preco = 700;
 	auxProd->proxProd = *produtos;
 	*produtos = auxProd;
 
 	auxProd = (Produto *)malloc(sizeof(Produto));
-	strcpy(auxProd->nome, "Mouse");
+	strcpy(auxProd->nome, "mouse");
 	auxProd->preco = 80;
 	auxProd->proxProd = *produtos;
 	*produtos = auxProd;
 
 	auxProd = (Produto *)malloc(sizeof(Produto));
-	strcpy(auxProd->nome, "Teclado");
+	strcpy(auxProd->nome, "teclado");
 	auxProd->preco = 50;
 	auxProd->proxProd = *produtos;
 	*produtos = auxProd;
 
 	auxProd = (Produto *)malloc(sizeof(Produto));
-	strcpy(auxProd->nome, "Headset");
+	strcpy(auxProd->nome, "headset");
 	auxProd->preco = 80;
 	auxProd->proxProd = *produtos;
 	*produtos = auxProd;
 
 	auxProd = (Produto *)malloc(sizeof(Produto));
-	strcpy(auxProd->nome, "Placa de Video GTX-1660");
+	strcpy(auxProd->nome, "placa_de_video");
 	auxProd->preco = 1200;
 	auxProd->proxProd = *produtos;
 	*produtos = auxProd;
 
 	auxProd = (Produto *)malloc(sizeof(Produto));
-	strcpy(auxProd->nome, "Processador i5");
+	strcpy(auxProd->nome, "processador");
 	auxProd->preco = 1300;
 	auxProd->proxProd = *produtos;
 	*produtos = auxProd;
 
 	auxProd = (Produto *)malloc(sizeof(Produto));
-	strcpy(auxProd->nome, "Memoria Ram DDR4 8GB");
+	strcpy(auxProd->nome, "memoria_ram");
 	auxProd->preco = 250;
 	auxProd->proxProd = *produtos;
 	*produtos = auxProd;
 
 	auxProd = (Produto *)malloc(sizeof(Produto));
-	strcpy(auxProd->nome, "SSD 240GB");
+	strcpy(auxProd->nome, "ssd");
 	auxProd->preco = 250;
 	auxProd->proxProd = *produtos;
 	*produtos = auxProd;
 
 	auxProd = (Produto *)malloc(sizeof(Produto));
-	strcpy(auxProd->nome, "Placa Mae LGA-1151");
+	strcpy(auxProd->nome, "placa_mae");
 	auxProd->preco = 500;
 	auxProd->proxProd = *produtos;
 	*produtos = auxProd;
 
 	auxProd = (Produto *)malloc(sizeof(Produto));
-	strcpy(auxProd->nome, "Fonte de Energia 600W");
+	strcpy(auxProd->nome, "fonte");
 	auxProd->preco = 180;
 	auxProd->proxProd = *produtos;
 	*produtos = auxProd;
@@ -142,15 +157,15 @@ void cadastrarProdutos(Produto **produtos)
 void deletarProduto(Produto **p, int indice)
 {
 	if (indice < 0)
-		return -2;
+		return;
 	else if (*p == NULL)
-		return -3;
+		return;
 	else if (indice == 0)
 	{
 		Produto *aux = *p;
 		*p = aux->proxProd;
 		free(aux);
-		return 0;
+		return;
 	}
 	else
 	{
@@ -162,10 +177,10 @@ void deletarProduto(Produto **p, int indice)
 			indiceAux++;
 		}
 		if (indiceAux < indice - 1 || aux->proxProd == NULL)
-			return -3;
+			return;
 		Produto *aux2 = aux->proxProd;
 		aux->proxProd = aux2->proxProd;
 		free(aux2);
-		return 0;
+		return;
 	}
 }
