@@ -38,7 +38,9 @@ void editarProduto(Produto **p, char nome[50]); // OK
 void deletarProduto(Produto **p, int indice); // OK - PRECISA DE REVISÃO NO NOME DAS VARIÁVEIS
 Produto * buscarProduto(Produto **p, char nome[50]); // OK (Retorna um endereço de memória, ou seja o valor de um ponteiro do tipo Produto)
 
-void incluirVenda(Venda **v, Produto **p);
+void incluirVenda(Venda **v, Produto **p); // OK
+void listarItens(Item *i); // OK
+void listarVendas(Venda *v); // OK
 
 int main()
 {
@@ -48,6 +50,8 @@ int main()
 
 	cadastrarProdutos(&produtos);
 	listarProdutos(produtos);
+	incluirVenda(&vendas, &produtos);
+	listarVendas(vendas);
 
 	return 0;
 }
@@ -203,6 +207,18 @@ Produto * buscarProduto(Produto **p, char nome[50])
 }
 // ./Produto
 
+// Item
+void listarItens(Item *i) {
+	Item *aux = i;
+	while (aux != NULL)
+	{
+		printf("\nItem->Produto: %s", aux->produtos->nome);
+		printf("\nQuantidade: %d", aux->qtde);
+		aux = aux->proxItem;
+	}
+}
+// ./Item
+
 // Venda
 void incluirVenda(Venda **v, Produto **p)
 {
@@ -211,23 +227,44 @@ void incluirVenda(Venda **v, Produto **p)
 	Item *auxItem;
 	printf("\n\nInforme a data da venda (DD/MM/AAAA): ");
 	scanf("%s", novaVenda->data);
-	char nomeP[50], escolha[1];
-	while(1) {
+	char nomeP[50];
+	int escolha = 1;
+	while(escolha)
+	{
 		auxItem = (Item *) malloc(sizeof(Item));
 		printf("\nInforme o nome do produto: ");
 		scanf("%s", nomeP);
-		auxItem->produtos = buscarProduto(*p, nomeP); // Fazer com que auxItem->produtos aponte para um produto
-		printf("\nInforme a quantidade: ");
-		scanf("%d", &auxItem->qtde);
-		auxItem->proxItem = novoItem;
-		novoItem = auxItem;
+		auxItem->produtos = buscarProduto(p, nomeP); // Fazer com que auxItem->produtos aponte para um produto
+		if(auxItem->produtos == NULL)
+		{
+			printf("\nProduto não encontrado!");
+		}
+		else
+		{
+			printf("\nInforme a quantidade: ");
+			scanf("%d", &auxItem->qtde);
+			auxItem->proxItem = novoItem;
+			novoItem = auxItem;
+		}
 
-		printf("\n\nDeseja cadastrar mais um item [S/N]: ");
-		scanf("%c", escolha);
-		if (escolha != 's' || escolha != 'S')
-			break;
+		printf("\n\nDeseja cadastrar mais um item [0]- Não [1]- Sim: ");
+		scanf("%d", &escolha);
 	}
 
 	novaVenda->itens = novoItem;
+	novaVenda->proxVenda = *v;
 	*v = novaVenda;
 }
+
+void listarVendas(Venda *v)
+{
+	Venda *aux = v;
+	while (aux != NULL)
+	{
+		printf("\n\nData da Venda: %s", aux->data);
+		printf("\n----- Itens -----");
+		listarItens(aux->itens);
+		aux = aux->proxVenda;
+	}
+}
+// ./Venda
