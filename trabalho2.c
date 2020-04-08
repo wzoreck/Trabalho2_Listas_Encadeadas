@@ -1,6 +1,6 @@
 /*
 
-Alunos: Adam Roger Slabadack, Daniel Wzoreck
+Aluno: Daniel Wzoreck
 Curso: Análise e Desenvolvimento de Sistemas - IFSC
 Disciplina: Estrutura de Dados
 
@@ -10,22 +10,19 @@ Disciplina: Estrutura de Dados
 #include <stdlib.h>
 #include <string.h>
 
-typedef struct Produto
-{
+typedef struct Produto {
 	char nome[50];
 	float preco;
 	struct Produto *proxProd;
 } Produto;
 
-typedef struct Item
-{
+typedef struct Item {
 	int qtde;
 	Produto *produtos;
 	struct Item *proxItem;
 } Item;
 
-typedef struct Venda
-{
+typedef struct Venda {
 	char data[10];
 	Item *itens;
 	struct Venda *proxVenda;
@@ -35,15 +32,14 @@ void cadastrarProdutos(Produto **produtos); // OK
 void listarProdutos(Produto *p);			// OK
 void cadastrarProduto(Produto **p);			// OK
 void editarProduto(Produto **p, char nome[50]); // OK
-void deletarProduto(Produto **p, int indice); // OK - PRECISA DE REVISÃO NO NOME DAS VARIÁVEIS
-Produto * buscarProduto(Produto **p, char nome[50]); // OK (Retorna um endereço de memória, ou seja o valor de um ponteiro do tipo Produto)
+void deletarProduto(Produto **p, int indice); // OK
+Produto * buscarProduto(Produto **p, char nome[50]); // OK (Retorna um endereço de memória)
 
 void incluirVenda(Venda **v, Produto **p); // OK
 void listarItens(Item *i); // OK
 void listarVendas(Venda *v); // OK
 
-int main()
-{
+int main() {
 
 	Produto *produtos = NULL;
 	Venda *vendas = NULL;
@@ -57,11 +53,9 @@ int main()
 }
 
 // Produto
-void listarProdutos(Produto *p)
-{
+void listarProdutos(Produto *p) {
 	Produto *aux = p;
-	while (aux != NULL)
-	{
+	while (aux != NULL) {
 		printf("\nEndereço: %p", aux);
 		printf("\nProduto: %s", aux->nome);
 		printf("\nPreço: %.2f", aux->preco);
@@ -70,9 +64,8 @@ void listarProdutos(Produto *p)
 	}
 }
 
-void cadastrarProduto(Produto **p)
-{
-	Produto *novo = (Produto *)malloc(sizeof(Produto));
+void cadastrarProduto(Produto **p) {
+	Produto *novo = (Produto *) malloc(sizeof(Produto));
 	printf("\nInforme o nome do Produto: ");
 	scanf("%s", novo->nome);
 	printf("Informe o valor: ");
@@ -81,13 +74,10 @@ void cadastrarProduto(Produto **p)
 	*p = novo;
 }
 
-void editarProduto(Produto **p, char nome[50])
-{
+void editarProduto(Produto **p, char nome[50]) {
 	Produto *aux = *p;
-	while (aux != NULL)
-	{
-		if(strcmp(aux->nome, nome) == 0)
-		{
+	while (aux != NULL) {
+		if(strcmp(aux->nome, nome) == 0) {
 			printf("\n\nInforme o novo nome do produto: ");
 			scanf("%s", aux->nome);
 			printf("Informe o novo preço do produto: ");
@@ -98,89 +88,84 @@ void editarProduto(Produto **p, char nome[50])
 	}
 }
 
-void cadastrarProdutos(Produto **produtos)
-{
+void cadastrarProdutos(Produto **produtos) {
 	Produto *auxProd;
-	auxProd = (Produto *)malloc(sizeof(Produto));
+	auxProd = (Produto *) malloc(sizeof(Produto));
 	strcpy(auxProd->nome, "monitor");
 	auxProd->preco = 700;
 	auxProd->proxProd = *produtos;
 	*produtos = auxProd;
 
-	auxProd = (Produto *)malloc(sizeof(Produto));
+	auxProd = (Produto *) malloc(sizeof(Produto));
 	strcpy(auxProd->nome, "mouse");
 	auxProd->preco = 80;
 	auxProd->proxProd = *produtos;
 	*produtos = auxProd;
 
-	auxProd = (Produto *)malloc(sizeof(Produto));
+	auxProd = (Produto *) malloc(sizeof(Produto));
 	strcpy(auxProd->nome, "teclado");
 	auxProd->preco = 50;
 	auxProd->proxProd = *produtos;
 	*produtos = auxProd;
 
-	auxProd = (Produto *)malloc(sizeof(Produto));
+	auxProd = (Produto *) malloc(sizeof(Produto));
 	strcpy(auxProd->nome, "headset");
 	auxProd->preco = 80;
 	auxProd->proxProd = *produtos;
 	*produtos = auxProd;
 
-	auxProd = (Produto *)malloc(sizeof(Produto));
+	auxProd = (Produto *) malloc(sizeof(Produto));
 	strcpy(auxProd->nome, "placa_de_video");
 	auxProd->preco = 1200;
 	auxProd->proxProd = *produtos;
 	*produtos = auxProd;
 
-	auxProd = (Produto *)malloc(sizeof(Produto));
+	auxProd = (Produto *) malloc(sizeof(Produto));
 	strcpy(auxProd->nome, "processador");
 	auxProd->preco = 1300;
 	auxProd->proxProd = *produtos;
 	*produtos = auxProd;
 
-	auxProd = (Produto *)malloc(sizeof(Produto));
+	auxProd = (Produto *) malloc(sizeof(Produto));
 	strcpy(auxProd->nome, "memoria_ram");
 	auxProd->preco = 250;
 	auxProd->proxProd = *produtos;
 	*produtos = auxProd;
 
-	auxProd = (Produto *)malloc(sizeof(Produto));
+	auxProd = (Produto *) malloc(sizeof(Produto));
 	strcpy(auxProd->nome, "ssd");
 	auxProd->preco = 250;
 	auxProd->proxProd = *produtos;
 	*produtos = auxProd;
 
-	auxProd = (Produto *)malloc(sizeof(Produto));
+	auxProd = (Produto *) malloc(sizeof(Produto));
 	strcpy(auxProd->nome, "placa_mae");
 	auxProd->preco = 500;
 	auxProd->proxProd = *produtos;
 	*produtos = auxProd;
 
-	auxProd = (Produto *)malloc(sizeof(Produto));
+	auxProd = (Produto *) malloc(sizeof(Produto));
 	strcpy(auxProd->nome, "fonte");
 	auxProd->preco = 180;
 	auxProd->proxProd = *produtos;
 	*produtos = auxProd;
 }
 
-void deletarProduto(Produto **p, int indice)
-{
+void deletarProduto(Produto **p, int indice) {
 	if (indice < 0)
 		return;
 	else if (*p == NULL)
 		return;
-	else if (indice == 0)
-	{
+	else if (indice == 0) {
 		Produto *aux = *p;
 		*p = aux->proxProd;
 		free(aux);
 		return;
 	}
-	else
-	{
+	else {
 		Produto *aux = *p;
 		int indiceAux = 0;
-		while (aux != NULL && indiceAux < indice - 1)
-		{
+		while (aux != NULL && indiceAux < indice - 1) {
 			aux = aux->proxProd;
 			indiceAux++;
 		}
@@ -193,13 +178,10 @@ void deletarProduto(Produto **p, int indice)
 	}
 }
 
-Produto * buscarProduto(Produto **p, char nome[50])
-{
+Produto * buscarProduto(Produto **p, char nome[50]) {
 	Produto *aux = *p;
-	while(aux != NULL)
-	{
-		if(strcmp(aux->nome, nome) == 0)
-		{
+	while(aux != NULL) {
+		if(strcmp(aux->nome, nome) == 0) {
 			return aux;
 		}
 		aux = aux->proxProd;
@@ -210,8 +192,7 @@ Produto * buscarProduto(Produto **p, char nome[50])
 // Item
 void listarItens(Item *i) {
 	Item *aux = i;
-	while (aux != NULL)
-	{
+	while (aux != NULL) {
 		printf("\nItem->Produto: %s", aux->produtos->nome);
 		printf("\nQuantidade: %d", aux->qtde);
 		aux = aux->proxItem;
@@ -220,8 +201,7 @@ void listarItens(Item *i) {
 // ./Item
 
 // Venda
-void incluirVenda(Venda **v, Produto **p)
-{
+void incluirVenda(Venda **v, Produto **p) {
 	Venda *novaVenda = (Venda *) malloc(sizeof(Venda));
 	Item *novoItem = NULL;
 	Item *auxItem;
@@ -229,18 +209,14 @@ void incluirVenda(Venda **v, Produto **p)
 	scanf("%s", novaVenda->data);
 	char nomeP[50];
 	int escolha = 1;
-	while(escolha)
-	{
+	while(escolha) {
 		auxItem = (Item *) malloc(sizeof(Item));
 		printf("\nInforme o nome do produto: ");
 		scanf("%s", nomeP);
 		auxItem->produtos = buscarProduto(p, nomeP); // Fazer com que auxItem->produtos aponte para um produto
-		if(auxItem->produtos == NULL)
-		{
+		if(auxItem->produtos == NULL) {
 			printf("\nProduto não encontrado!");
-		}
-		else
-		{
+		} else {
 			printf("\nInforme a quantidade: ");
 			scanf("%d", &auxItem->qtde);
 			auxItem->proxItem = novoItem;
@@ -256,11 +232,9 @@ void incluirVenda(Venda **v, Produto **p)
 	*v = novaVenda;
 }
 
-void listarVendas(Venda *v)
-{
+void listarVendas(Venda *v) {
 	Venda *aux = v;
-	while (aux != NULL)
-	{
+	while (aux != NULL) {
 		printf("\n\nData da Venda: %s", aux->data);
 		printf("\n----- Itens -----");
 		listarItens(aux->itens);
