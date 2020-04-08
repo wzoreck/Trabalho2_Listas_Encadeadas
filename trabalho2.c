@@ -45,9 +45,56 @@ int main() {
 	Venda *vendas = NULL;
 
 	cadastrarProdutos(&produtos);
-	listarProdutos(produtos);
-	incluirVenda(&vendas, &produtos);
-	listarVendas(vendas);
+
+	int escolha, indiceProduto;
+	char nomeProduto[50];
+
+	while (1) {
+		printf("\n\n[1] - Listar Produtos");
+		printf("\n[2] - Cadastrar Produto");
+		printf("\n[3] - Editar Produto");
+		printf("\n[4] - Deletar Produto");
+		printf("\n[5] - Cadastrar Venda");
+		printf("\n[6] - Listar Vendas");
+		printf("\n\nInforme sua escolha: ");
+		scanf("%d", &escolha);
+
+		switch (escolha) {
+			case 1:
+				listarProdutos(produtos);
+				break;
+
+			case 2:
+				cadastrarProduto(&produtos);
+				break;
+
+			case 3:
+				printf("\nInforme o nome do produto: ");
+				scanf("%s", nomeProduto);
+				editarProduto(&produtos, nomeProduto);
+				break;
+
+			case 4:
+				printf("\nInforme o ID do produto: ");
+				scanf("%d", &indiceProduto);
+				deletarProduto(&produtos, indiceProduto);
+				break;
+
+			case 5:
+				incluirVenda(&vendas, &produtos);
+				break;
+
+			case 6:
+				listarVendas(vendas);
+				break;
+
+			default:
+				printf("\nA opção escolhida não está disponível!");
+				break;
+		}
+	}
+	
+
 
 	return 0;
 }
@@ -55,12 +102,13 @@ int main() {
 // Produto
 void listarProdutos(Produto *p) {
 	Produto *aux = p;
+	int contador=0;
 	while (aux != NULL) {
-		printf("\nEndereço: %p", aux);
+		printf("\n\nProduto ID: %d", contador);
 		printf("\nProduto: %s", aux->nome);
 		printf("\nPreço: %.2f", aux->preco);
-		printf("\nProximo Produto: %p\n", aux->proxProd);
 		aux = aux->proxProd;
+		contador++;
 	}
 }
 
@@ -78,7 +126,7 @@ void editarProduto(Produto **p, char nome[50]) {
 	Produto *aux = *p;
 	while (aux != NULL) {
 		if(strcmp(aux->nome, nome) == 0) {
-			printf("\n\nInforme o novo nome do produto: ");
+			printf("Informe o novo nome do produto: ");
 			scanf("%s", aux->nome);
 			printf("Informe o novo preço do produto: ");
 			scanf("%f", &aux->preco);
@@ -194,7 +242,7 @@ void listarItens(Item *i) {
 	Item *aux = i;
 	while (aux != NULL) {
 		printf("\nItem->Produto: %s", aux->produtos->nome);
-		printf("\nQuantidade: %d", aux->qtde);
+		printf("\nQuantidade: %d\n", aux->qtde);
 		aux = aux->proxItem;
 	}
 }
@@ -211,19 +259,19 @@ void incluirVenda(Venda **v, Produto **p) {
 	int escolha = 1;
 	while(escolha) {
 		auxItem = (Item *) malloc(sizeof(Item));
-		printf("\nInforme o nome do produto: ");
+		printf("Informe o nome do produto: ");
 		scanf("%s", nomeP);
 		auxItem->produtos = buscarProduto(p, nomeP); // Fazer com que auxItem->produtos aponte para um produto
 		if(auxItem->produtos == NULL) {
 			printf("\nProduto não encontrado!");
 		} else {
-			printf("\nInforme a quantidade: ");
+			printf("Informe a quantidade: ");
 			scanf("%d", &auxItem->qtde);
 			auxItem->proxItem = novoItem;
 			novoItem = auxItem;
 		}
 
-		printf("\n\nDeseja cadastrar mais um item [0]- Não [1]- Sim: ");
+		printf("\nDeseja cadastrar mais um item [0]- Não [1]- Sim: ");
 		scanf("%d", &escolha);
 	}
 
